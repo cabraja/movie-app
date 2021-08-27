@@ -1,8 +1,11 @@
 // TMDB
 
+let currentPage = 1;
+
+
 const API_KEY = 'api_key=fa929aecdbe4c83a06865565167a4921';
 const BASE_URL = 'https://api.themoviedb.org/3';
-const API_URL = BASE_URL + '/movie/popular?' + API_KEY;
+let API_URL = BASE_URL + '/movie/popular?' + API_KEY + `&page=${currentPage}`;
 const SEARCH_URL = BASE_URL + '/search/movie?' + API_KEY + '&query='; 
 const IMG_URL = 'https://image.tmdb.org/t/p/w500';
 const main = document.getElementById('main');
@@ -57,6 +60,31 @@ form.addEventListener('submit',(e) => {
     }else{
         getMovies(API_URL);
     }
+})
+
+// ------------------------------------- PAGE SWITCHER
+const prevPage = document.getElementById('prev-page');
+const nextPage = document.getElementById('next-page');
+
+nextPage.addEventListener('click',e => {
+    e.preventDefault();
+    currentPage++;
+    console.log(currentPage);
+    prevPage.style.display = 'block';
+    API_URL = BASE_URL + '/movie/popular?' + API_KEY + `&page=${currentPage}`;
+    getMovies(API_URL);
+})
+
+prevPage.addEventListener('click',e => {
+    e.preventDefault();
+    currentPage--;
+    console.log(currentPage);
+    
+    if(currentPage < 2){
+        prevPage.style.display = 'none';
+    }
+    API_URL = BASE_URL + '/movie/popular?' + API_KEY + `&page=${currentPage}`;
+    getMovies(API_URL);
 })
 
 
